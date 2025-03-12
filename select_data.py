@@ -19,7 +19,7 @@ def set_server_timezone(timezone):
     conn.close()
 
 # Function to get count for the current date
-def get_count_for_current_date():
+def get_count_for_current_date(timezone=None):
     conn = psycopg2.connect(
         dbname="postgres",
         user="test",
@@ -28,6 +28,8 @@ def get_count_for_current_date():
         port="5432"
     )
     cur = conn.cursor()
+    if timezone:
+        cur.execute(f"SET timezone = '{timezone}'")
     cur.execute("SELECT COUNT(*) FROM test_dates WHERE date_column = CURRENT_DATE")
     count = cur.fetchone()[0]
     cur.close()
@@ -45,4 +47,7 @@ for i in range(24):
     modified_timezone = get_count_for_current_date()
     if modified_timezone < 10:
         print(f"Count for CURRENT_DATE on timezone -{i}: {modified_timezone}")
+        with_utc = get_count_for_current_date('UTC')
+        print(f"Count for CURRENT_DATE on timezone -{i} with UTC: {with_utc}")
         break
+        
