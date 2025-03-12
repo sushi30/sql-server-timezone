@@ -41,8 +41,8 @@ print(f"UTC Date Count for CURRENT_DATE: {utc_count}")
 
 # Set server timezone to Eastern Time and get count
 for i in range(24):
-    set_server_timezone(f'+{i}')
+    set_server_timezone(f'-{i}')
     modified_timezone = get_count_for_current_date()
     if modified_timezone < 10:
-        print(f"Count for CURRENT_DATE on timezone +{i}: {modified_timezone}")
+        print(f"Count for CURRENT_DATE on timezone -{i}: {modified_timezone}")
         break
